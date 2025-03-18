@@ -50,24 +50,38 @@ function sortearAmigo() {
         return;
     }
 
-    let amigosDisponibles = [...amigos]; // Copia del array original
-    let resultado = [];
+    let asignaciones = {};
+    let amigosMezclados = mezclarArray([...amigos]); // Mezclar la lista de amigos
 
-    amigos.forEach((amigo) => {
-        let posibles = amigosDisponibles.filter(a => a !== amigo); // Evitar autoasignación
+    // Asignar a cada persona el siguiente en la lista mezclada
+    for (let i = 0; i < amigosMezclados.length; i++) {
+        let amigo = amigosMezclados[i];
+        let elegido = amigosMezclados[(i + 1) % amigosMezclados.length];
 
-        if (posibles.length === 0) {
+        // Si el elegido es el mismo, reiniciar el sorteo
+        if (elegido === amigo) {
             return sortearAmigo();
         }
 
-        let elegido = posibles[Math.floor(Math.random() * posibles.length)];
-        resultado.push(`➤ A ${amigo} le ha tocado ${elegido}.`);
+        asignaciones[amigo] = elegido; // Guardar la asignación
+    }
 
-        // Eliminar al elegido de los disponibles
-        amigosDisponibles = amigosDisponibles.filter(a => a !== elegido);
-    });
+    // Mostrar los resultados
+    let resultado = [];
+    for (let amigo in asignaciones) {
+        resultado.push(`➤ A ${amigo} le ha tocado ${asignaciones[amigo]}.`);
+    }
 
     mostrarResultado(resultado);
+}
+
+// Función para mezclar un array
+function mezclarArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Intercambiar elementos
+    }
+    return array;
 }
 
 function mostrarResultado(resultado) {
