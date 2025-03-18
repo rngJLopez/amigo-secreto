@@ -4,7 +4,17 @@ let amigos = [];
 // Función para agregar nombres a la lista
 function agregarAmigo() {
     let input = document.getElementById("amigo");
-    let nombre = input.value.trim(); // Eliminar espacios en blanco
+    let nombre = input.value.trim(); 
+
+    if (nombre.length < 2) {
+        alert("El nombre debe tener al menos 2 caracteres.");
+        return;
+    }
+
+    if (!/^[a-zA-Z\s]+$/.test(nombre)) {
+        alert("Por favor, ingresa un nombre válido (solo letras y espacios).");
+        return;
+    }
 
     if (nombre === "") {
         alert("Por favor, ingresa un nombre válido.");
@@ -24,7 +34,7 @@ function agregarAmigo() {
 // Función para actualizar la lista en pantalla
 function actualizarLista() {
     let listaAmigos = document.getElementById("listaAmigos");
-    listaAmigos.innerHTML = ""; // Limpiar lista antes de actualizar
+    listaAmigos.innerHTML = ""; 
 
     amigos.forEach((amigo) => {
         let li = document.createElement("li");
@@ -47,12 +57,11 @@ function sortearAmigo() {
         let posibles = amigosDisponibles.filter(a => a !== amigo); // Evitar autoasignación
 
         if (posibles.length === 0) {
-            // Si en la última ronda alguien se quedó sin opciones, rehacer el sorteo
             return sortearAmigo();
         }
 
         let elegido = posibles[Math.floor(Math.random() * posibles.length)];
-        resultado.push(`A ${amigo} le ha tocado ${elegido}.`);
+        resultado.push(`➤ A ${amigo} le ha tocado ${elegido}.`);
 
         // Eliminar al elegido de los disponibles
         amigosDisponibles = amigosDisponibles.filter(a => a !== elegido);
@@ -61,8 +70,22 @@ function sortearAmigo() {
     mostrarResultado(resultado);
 }
 
-// Función para mostrar los resultados en un alert
 function mostrarResultado(resultado) {
     let mensaje = "🎁 Resultado del sorteo:\n\n" + resultado.join("\n");
     alert(mensaje);
 }
+
+// Función para reiniciar la lista
+function reiniciarLista() {
+    amigos = [];
+    actualizarLista();
+    // alert("La lista ha sido reiniciada.");
+}
+
+// Event listener para detectar la tecla "Enter" en el input
+document.getElementById("amigo").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Evitar que se envíe el formulario (si lo hubiera)
+        agregarAmigo(); // Llamar a la función agregarAmigo
+    }
+});

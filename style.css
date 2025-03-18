@@ -3,9 +3,10 @@
     --color-secondary: #FFF9EB;
     --color-tertiary: #C4C4C4;
     --color-button: #fe652b;
-    --color-button-hover: #e55720;
+    --color-button-hover: #cf4d19;
     --color-text: #444444;
     --color-white: #FFFFFF;
+    --color-button-r-hover: #20307c;
 }
 
 /* Estilos generales */
@@ -159,4 +160,23 @@ ul {
 
 .button-draw:hover {
     background-color: var(--color-button-hover);
+}
+
+.button-reset {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 40px;
+    color: var(--color-white);
+    background-color: var(--color-primary); 
+    font-size: 16px;
+    margin-top: 10px; 
+}
+
+.button-reset img {
+    margin-right: 40px;
+}
+
+.button-reset:hover {
+    background-color: var(--color-button-r-hover); 
 }
